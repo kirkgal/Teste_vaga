@@ -1,0 +1,78 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+
+import pandas as pd
+import openpyxl
+
+
+df_honorarios = pd.read_excel("C:/Users/Kirk/anaconda3/envs/powerbiv36/Teste Vaga de Analista de Dados.xlsx", sheet_name = 'honorarios', engine= 'openpyxl')
+df_custos = pd.read_excel("C:/Users/Kirk/anaconda3/envs/powerbiv36/Teste Vaga de Analista de Dados.xlsx", sheet_name = 'custos', engine= 'openpyxl')
+
+
+display(df_honorarios)
+display(df_custos)
+
+
+df_honorarios.dropna()
+
+
+indexNum = df_honorarios[df_honorarios['Agente'] == 8000].index
+df_honorarios.drop(indexNum, inplace = True)
+
+
+display(df_honorarios)
+
+
+
+df_grupos = pd.read_excel("C:/Users/Kirk/anaconda3/envs/powerbiv36/Teste Vaga de Analista de Dados.xlsx", sheet_name = 'grupos', engine = 'openpyxl')
+df_cliente = pd.read_excel("C:/Users/Kirk/anaconda3/envs/powerbiv36/Teste Vaga de Analista de Dados.xlsx", sheet_name = 'tipo_cliente', engine = 'openpyxl')
+
+
+display(df_grupos)
+display(df_cliente)
+
+
+
+df_honorarios = pd.merge(df_honorarios, df_grupos, on = 'Id_cliente')
+display(df_honorarios)
+
+
+
+indexNum2 = df_honorarios[df_honorarios['Tipo_cliente'] == 300].index
+df_honorarios.drop(indexNum2, inplace = True)
+display(df_honorarios)
+
+
+
+df_honorarios = df_honorarios.drop(columns = ['Índice'])
+
+
+# from sqlalchemy import create_engine
+# 
+
+# # Leitura dos dados
+# df = df_custos
+# colunas = list(df.columns)
+# colunas.append('Index')
+# 
+
+# 
+# # FIX: Monte sua query de acesso ao dataframe custos conforme indicado no teste
+# # Não tenho experiencia em usar SQL no python, mas a query faria dessa forma:
+# query = 
+# '''SELECT * FROM custos
+# WHERE Custos IS NOT NULL
+#     AND trim(regexp_replace(Custos) != ''
+#     AND strftime('%Y', Data) NOT IN ('2016', '2022')
+# ORDER BY Id_cliente DESC'''
+# 
+# # Criação do banco de dados
+# engine = create_engine('sqlite:///custos.db', echo=False)
+# df.to_sql('dados', con=engine)
+# dados_db = engine.execute(query).fetchall()
+# 
+# df_sql = pd.DataFrame(dados_db, columns=colunas)
+# df_sql.drop('Index', axis=1, inplace=True)
+# print(df_sql)
+# 
